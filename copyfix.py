@@ -5,38 +5,29 @@ import hashlib
 import subprocess
 
 def get_disk_hash(filepath):
-    """Hashes a file directly from the disk, bypassing the page cache."""
+    """Hashes the first 4KB of a file directly from the disk."""
     sha256 = hashlib.sha256()
     try:
-      # O_DIRECT forces the kernel to read from the disk, not the RAM cache.
-      # NOTE: O_DIRECT requires the buffer size and file offset to be fully aligned.
-      # We use a block size of 4096 bytes for this exact reason.
 
-        fd = os.open(filepath, os.O_RDONLY | os.O_DIRECT)
-        try:
-            while True:
-                chunk = os.read(fd, 4096)
-                if not chunk:
-                    break
-                sha256.update(chunk)
-        finally:
-            os.close(fd)
-        return sha256.hexdigest()
-    except Exception as e:
-        print(f"[-] Error reading disk file {filepath}: {e}")
-        return None
+        # Read exactly 4096 bytes or one memory page
+        chunk = os.read(fd,4096)
+        sha256.update(chunk)
+    finally:
+        os.close(fd)
+    return sha256.hexdigest()
+except Exception as e:
+    print(f"[-] Error reading disk file {filepath}: {e}")
+    return None
 
 def get_memory_hash(pid):
-    """Hashes the in-memory executable of a running process."""
+    """Hashes the first 4KB of the in-memory executable."""
     exe_path = f"/proc/{pid}/exe"
     sha256 = hashlib.sha256()
     try:
         with open(exe_path, 'rb') as f:
-            while True:
-                chunk = f.read(4096)
-                if not chunk:
-                    break
-                sha256.update(chunk)
+            # Read exactly 4096 bytes or one memory page
+            chunk = f.read(4096)
+            sha256.update(chunk)
         return sha256.hexdigest()
     except Exception as e:
         print(f"[-] Error reading memory from PID {pid}: {e}")
