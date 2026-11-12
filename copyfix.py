@@ -8,14 +8,16 @@ def get_disk_hash(filepath):
     """Hashes the first 4KB of a file directly from the disk."""
     sha256 = hashlib.sha256()
     try:
+        fd = os.open(filepath, os.O_RDONLY | o.O_DIRECT)
+        try:
 
         # Read exactly 4096 bytes or one memory page
-        chunk = os.read(fd,4096)
-        sha256.update(chunk)
-    finally:
+            chunk = os.read(fd,4096)
+            sha256.update(chunk)
+        finally:
             os.close(fd)
-    return sha256.hexdigest()
-except Exception as e:
+        return sha256.hexdigest()
+    except Exception as e:
         print(f"[-] Error reading disk file {filepath}: {e}")
         return None
 
