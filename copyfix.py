@@ -8,7 +8,7 @@ def get_disk_hash(filepath):
     """Hashes the first 4KB of a file directly from the disk."""
     sha256 = hashlib.sha256()
     try:
-        fd = os.open(filepath, os.O_RDONLY | o.O_DIRECT)
+        fd = os.open(filepath, os.O_RDONLY | os.O_DIRECT)
         try:
 
         # Read exactly 4096 bytes or one memory page
