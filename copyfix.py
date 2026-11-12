@@ -11,8 +11,8 @@ def get_disk_hash(filepath):
         fd = os.open(filepath, os.O_RDONLY | os.O_DIRECT)
         try:
 
-        # Read exactly 4096 bytes or one memory page
-            chunk = os.read(fd,4096)
+        # Read exactly 100 bytes or one memory page
+            chunk = os.read(fd,100)
             sha256.update(chunk)
         finally:
             os.close(fd)
@@ -27,8 +27,8 @@ def get_memory_hash(pid):
     sha256 = hashlib.sha256()
     try:
         with open(exe_path, 'rb') as f:
-            # Read exactly 4096 bytes or one memory page
-            chunk = f.read(4096)
+            # Read exactly 100 bytes or one memory page
+            chunk = f.read(100)
             sha256.update(chunk)
         return sha256.hexdigest()
     except Exception as e:
