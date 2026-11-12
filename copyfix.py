@@ -92,7 +92,7 @@ print("=========================================================================
 
     # If the user passes a specific file, check it instead.
     # Otherwise, check a default list of critical binaries.
-    if len(sys.argv) > 1:
+if len(sys.argv) > 1:
         targets = [sys.argv[1]]
     else:
         targets = ["/usr/bin/su", "/usr/bin/sudo", "/usr/bin/ssh"]
