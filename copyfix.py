@@ -88,4 +88,22 @@ if __name__ == "__main__":
         print("[-] Please run as root (sudo python3 copyfix.py)")
         sys.exit(1)
 
-    #
+    # The Signature
+print("==============================================================================")
+    print("    CopyFix - a tool by Stlwtrs")
+    print("    Dual-Verification File Integrity Monitoring Tool")
+print("==============================================================================\n")
+
+    # If the user passes a specific file, check it instead.
+    # Otherwise, check a default list of critical binaries.
+    if len(sys.argv) > 1:
+        targets = [sys.argv[1]]
+    else:
+        targets = ["/usr/bin/su", "/usr/bin/sudo", "/usr/bin/ssh"]
+        print("[*] No target specified. Scanning the default critical binaries...\n")
+
+    for target in targets:
+        if not os.path.exists(target):
+            print(f"[-] Target {target} does not exist. Skipping.\n")
+            continue
+        check_binary(target)
