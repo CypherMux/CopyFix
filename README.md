@@ -1,6 +1,18 @@
-# CopyFix
+```
+                                                                           
+                                                                           
+  .g8"""bgd   .g8""8q. `7MM"""Mq.`YMM'   `MM'`7MM"""YMM `7MMF'`YMM'   `MP' 
+.dP'     `M .dP'    `YM. MM   `MM. VMA   ,V    MM    `7   MM    VMb.  ,P   
+dM'       ` dM'      `MM MM   ,M9   VMA ,V     MM   d     MM     `MM.M'    
+MM          MM        MM MMmmdM9     VMMP      MM""MM     MM       MMb     
+MM.         MM.      ,MP MM           MM       MM   Y     MM     ,M'`Mb.   
+`Mb.     ,' `Mb.    ,dP' MM           MM       MM         MM    ,P   `MM.  
+  `"bmmmd'    `"bmmd"' .JMML.       .JMML.   .JMML.     .JMML..MM:.  .:MMa.
+                                                                           
+                                                                           
+```
 
-A dual verification File Integrity Monitor designed to detect and defend against the "Copy Fail" kernel vulnerability. (CVE-2026-31431)
+***A dual verification File Integrity Monitor designed to detect and defend against the "Copy Fail" kernel vulnerability. (CVE-2026-31431)***
 
 ## Why I Made This Tool
 
