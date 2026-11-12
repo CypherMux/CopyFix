@@ -25,7 +25,7 @@ I built `CopyFix` to fix the blind spot in these tools. Instead of just checking
 
 *  **2. The Runtime:** It finds the active Process ID (PID) and calculates the SHA-256 hash of the executable **in memory** by reading `/proc/<PID>/exe`.
 
-*  **The Comparison:** If the disk hash and the memory hash do not match, `CopyFix` alerts you that the binary has been tampered with in the RAM.
+*  **3. The Comparison:** If the disk hash and the memory hash do not match, `CopyFix` alerts you that the binary has been tampered with in the RAM.
 
 ## Some Of The Features
 
@@ -35,19 +35,19 @@ I built `CopyFix` to fix the blind spot in these tools. Instead of just checking
 
 *  **Critical Binary Targeting:** The tool focuses mainly on high value targets such as `/usr/bin/su`, `/usr/bin/sudo`, and `/usr/bin/ssh`.
 
-*  **Lightweight Structurally:** Pure Python3 codebase with no heavy dependencies to not put such a toll on your system.
+*  **Lightweight & Fast:** Pure Python3 codebase with no heavy dependencies to not put such a toll on your system.
 
 ## Installation & Usage
 
 `CopyFix` is a standalone Python script with zero external dependencies so all you need is Python3 which is preinstalled on almost all Linux distributions. If you do **not** have Python3 installed on your system please follow step *0.8-0.9* of the installation process, if you do you can skip the first few steps.
 
-### 0.8: Check If You Have Python3 Installed On Your System Using The Following Command
+### 0.8. Check If You Have Python3 Installed On Your System Using The Following Command
 
 ```python3 --version```
 
 *If you get a "command not found" error, you can install Python3 using your system's package manager in the next step.*
 
-### 0.9: Install Python3 To Your System
+### 0.9. Install Python3 To Your System
 
 **Arch Linux**
 
