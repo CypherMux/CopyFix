@@ -95,7 +95,7 @@ print("=========================================================================
 if len(sys.argv) > 1:
         targets = [sys.argv[1]]
 else: targets = ["/usr/bin/su", "/usr/bin/sudo", "/usr/bin/ssh"]
-    print("[*] No target specified. Scanning the default critical binaries...\n")
+print("[*] No target specified. Scanning the default critical binaries...\n")
 
 for target in targets:
         if not os.path.exists(target):
