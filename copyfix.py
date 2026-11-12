@@ -46,18 +46,15 @@ def check_binary(binary_path):
     print(f"[*] Analyzing target: {binary_path}")
 
     # 1. Get the initial disk hash (O_DIRECT)
-    disk_hash =
-get_disk_hash(binary_path)
+    disk_hash = get_disk_hash(binary_path)
     if not disk_hash:
         return
 
     # 2. Finds the PID of the running process
     # Uses pgrep to find if the binary is currently running
-    binary_name =
-os.path.basename(binary_path)
+    binary_name = os.path.basename(binary_path)
     try:
-        pid_output =
-subprocess.check.output(["pgrep", "-n", binary_name]).decode().strip()
+        pid_output = subprocess.check.output(["pgrep", "-n", binary_name]).decode().strip()
         if not pid_output:
             print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory.")
             return
