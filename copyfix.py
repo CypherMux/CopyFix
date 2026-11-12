@@ -26,7 +26,7 @@ def get_disk_hash(filepath):
         print(f"[-] Error reading disk file {filepath}: {e}")
         return None
 
-def get_memory_hash(pid)
+def get_memory_hash(pid):
     """Hashes the in-memory executable of a running process."""
     exe_path = f"/proc/{pid}/exe"
     sha256 = hashlib.sha256()
