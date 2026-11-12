@@ -15,7 +15,7 @@ def get_disk_hash(filepath):
     finally:
         os.close(fd)
     return sha256.hexdigest()
- except Exception as e:
+    except Exception as e:
     print(f"[-] Error reading disk file {filepath}: {e}")
     return None
 
