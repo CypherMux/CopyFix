@@ -13,11 +13,11 @@ def get_disk_hash(filepath):
         chunk = os.read(fd,4096)
         sha256.update(chunk)
     finally:
-        os.close(fd)
-    return sha256.hexdigest()
+            os.close(fd)
+        return sha256.hexdigest()
     except Exception as e:
-    print(f"[-] Error reading disk file {filepath}: {e}")
-    return None
+        print(f"[-] Error reading disk file {filepath}: {e}")
+        return None
 
 def get_memory_hash(pid):
     """Hashes the first 4KB of the in-memory executable."""
