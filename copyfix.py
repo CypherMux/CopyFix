@@ -94,9 +94,8 @@ print("=========================================================================
     # Otherwise, check a default list of critical binaries.
 if len(sys.argv) > 2 and sys.argv[1] == "--check":
         targets = [sys.argv[2]]
-    elif len(sys.argv) > 1:
+    elif len(sys.argv) > 1: targets = [sys.argv[1]]
         # If they pass a file path without --check
-        targets = [sys.argv[1]]
 else:
         targets = ["/usr/bin/su", "/usr/bin/sudo", "/usr/bin/ssh"]
         print("[*] No target specified. Scanning the default critical binaries...\n")
