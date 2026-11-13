@@ -71,10 +71,26 @@ I built `CopyFix` to fix the blind spot in these tools. Instead of just checking
 
 ## Usage
 
-## Scan a specific binary
+## Scan a specific binary 
 
 
-```sudo ./copyfix.py --check /usr/bin/su```
+```sudo ./copyfix.py --check /path/to/binary```
+
+
+<img width="998" height="631" alt="Screenshot From 2026-11-13 15-08-57" src="https://github.com/user-attachments/assets/3a4d51a2-efa8-499f-ad65-7da075eb77e6" />
+
+***as you can see, the hash is the same for each instance of the file meaning it has not been tampered with, but what if we were to intentionally tamper with it?***
+
+## Scan a specific binary (tampered with)
+
+
+
+<img width="998" height="747" alt="Screenshot From 2026-11-13 15-10-54" src="https://github.com/user-attachments/assets/8560b487-dfcc-468e-a236-acb458c5c2f3" />
+
+***as we can see above, the tool detected the altered file and alerted us immediately!***
+
+
+
 
 ## Scan all critical binaries at once
 
