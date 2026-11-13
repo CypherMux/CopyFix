@@ -86,16 +86,17 @@ def check_binary(binary_path):
         print(f"[!] CRITICAL ALERT: COPY FAIL HAS BEEN DETECTED ON {binary_name}!")
         print(f"[!] The file on disk is clean, but the memory has been tampered with.\n")
 
-    if __name__ == "__main__":
-        if os.geteuid() != 0:
-            print("[-] Please run as root (sudo python3 copyfix.py)")
-            sys.exit(1)
-
     # The Signature
     print("==============================================================================")
     print("CopyFix - a tool by Stlwtrs")
     print("Dual-Verification File Integrity Monitoring Tool")
     print("==============================================================================\n")
+
+    
+if __name__ == "__main__":
+        if os.geteuid() != 0:
+            print("[-] Please run as root (sudo python3 copyfix.py)")
+            sys.exit(1)
 
     targets = []
 
