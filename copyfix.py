@@ -38,58 +38,41 @@ def get_memory_hash(pid):
 def check_binary(binary_path):
     print(f"[*] Analyzing target: {binary_path}")
 
-    # 1. Get the initial disk size and hash
-    try:
-        disk_size = os.path.getsize(binary_path)
-    except Exception as e:
-        print(f"[-] Could not get stat {binary_path}: {e}")
-        return
-
+    # 1. Get the initial disk hash
     disk_hash = get_disk_hash(binary_path)
     if not disk_hash:
         return
 
-    # 2. Find the PID of the running process. If no PID was provided, attempt to find it.
-if not pid:
+    # 2. Find the PID
     binary_name = os.path.basename(binary_path)
+
     try:
         pid_output = subprocess.check_output(["pgrep", "-n", binary_name]).decode().strip()
-        if not pid_output:
-            print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory status.")
-    return
-        pid = pid_output.split('\n')[0]
-except subprocess.CalledProcessError:
+    except subprocess.CalledProcessError:
         print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory.")
         return
-        print(f"[*] Found active PID: {pid}")
 
-    # 3. Get the memory hash and size
+    if not pid_output:
+        print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory.")
+        return
+
+    pid = pid.output.split('\n')[0]
+    print(f"[*] Found active PID: {pid}")
+
+    # 3. Get the memory hash
     memory_hash = get_memory_hash(pid)
     if not memory_hash:
         return
 
-    # 4. Compare the sizes first, this is the most reliable check for a Copy Fail exploit
-    try:
-        mem_size = os.path.getsize(f"/proc/{pid}/exe")
-    except Exception:
-        mem_size = 0
-
-    print(f"    Disk Size:    {disk_size} bytes")
-    print(f"    Memory Size:  {mem_size} bytes")
-
-    # If sizes do not properly match up we definitely have an issue
-    if disk_size != mem_size:
-        print(f"[!] CRITICAL ALERT: SIZE MISMATCH ON {binary_path}!")
-        print(f"[!] The file on disk is {disk_size} bytes, but memory is {mem_size} bytes.")
-        print(f"[!] This heavily indicates page cache tampering.\n")
-        return
-
-    # If sizes do indeed match, we fall back to the hash comparison script for thouroughness
+    # 4. Compare the two hashes
     print(f"    Disk Hash: {disk_hash[:16]}...")
     print(f"    Memory Hash: {memory_hash[:16]}...")
 
-    # NOTE: Hashes may differ due to ASLR/ELF loading, so it is only flagged if sizes differ to prevent false positives
-    print(f"[+] SUCCESS: {binary_name} size matches the disk. No obvious Copy Fail detected.\n")
+    if disk_hash == memory_hash:
+        print(f"[+] SUCCESS: {binary_name} matches the disk. No tampering has been detected.\n")
+    else:
+        print(f"[!] CRITICAL ALERT: COPY FAIL HAS BEEN DETECTED ON {binary_name}!")
+        print(f"[!] The file on disk is clean, but the memory has been tampered with.\n")
         
 
 if __name__ == "__main__":
