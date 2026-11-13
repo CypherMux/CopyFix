@@ -72,7 +72,7 @@ def check_binary(binary_path):
 print(f"[*] Found active PID: {pid}")
 
 # 3. Get the memory hash
-    memory_hash = get_memory_hash(pid)
+memory_hash = get_memory_hash(pid)
     if not memory_hash:
         return
 
