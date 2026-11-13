@@ -36,7 +36,7 @@ def get_memory_hash(pid):
         return None
 
 def check_binary(binary_path):
-    print(f"[*] Analyzing target: {binary path}")
+    print(f"[*] Analyzing target: {binary_path}")
 
     # 1. Get the initial disk size and hash
     try:
