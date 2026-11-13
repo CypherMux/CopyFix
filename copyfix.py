@@ -61,7 +61,7 @@ if not pid:
     except subprocess.CalledProcessError:
         print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory.")
         return
-    print(f"[*] Found active PID: {pid}")
+        print(f"[*] Found active PID: {pid}")
 
     # 3. Get the memory hash and size
     memory_hash = get_memory_hash(pid)
