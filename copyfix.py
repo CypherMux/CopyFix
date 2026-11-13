@@ -5,17 +5,12 @@ import hashlib
 import subprocess
 
 def get_disk_hash(filepath):
-    """Hashes the first 4KB of a file directly from the disk."""
+    """Hashes the first 100 bytes of a file directly from the disk."""
     sha256 = hashlib.sha256()
     try:
-        fd = os.open(filepath, os.O_RDONLY | os.O_DIRECT)
-        try:
-
-        # Read exactly 100 bytes or one memory page
-            chunk = os.read(fd,100)
+        with open(filepath, 'rb') as f:
+            chunk = f.read(100)
             sha256.update(chunk)
-        finally:
-            os.close(fd)
         return sha256.hexdigest()
     except Exception as e:
         print(f"[-] Error reading disk file {filepath}: {e}")
@@ -34,7 +29,6 @@ def get_memory_hash(pid):
     except Exception as e:
         print(f"[-] Error reading memory from PID {pid}: {e}")
         return None
-
 def check_binary(binary_path):
     print(f"[*] Analyzing target: {binary_path}")
 
@@ -45,58 +39,52 @@ def check_binary(binary_path):
 
     # 2. Find the PID
     binary_name = os.path.basename(binary_path)
+    pid = None
 
     try:
-        # Get all PIDs for the binary
-        all_pids = subprocess.check_output(["pgrep", binary_name]).decode().strip().split('\n')
+        # Use pgrep -x to match the exact binary name, not partial strings
+        output = subprocess.check_output(["pgrep", "-x", binary_name]).decode('utf-8')
 
-        # Get our own parent's PID to avoid scanning ourselves in the process
-        my_ppid = str(os.getppid())
+        # Split by newline and filter out the empty strings
+        all_pids = [p.strip() for p in output.split('\n') if p.strip()]
 
-        # Filter out the parent PID we just discovered
-        valid_pids = [p for p in all_pids if p and p != my_ppid]
+        my_pid = str(os.getpid())
+
+        # Filter out your own PID just in case of future errors
+        valid_pids = [p for p in all_pids if p != my_pid]
 
         if not valid_pids:
-            print(f"[-] Process '{binary_name}' is not currently running (excluding parent). Unable to check memory.")
+            print(f"[-] Process '{binary_name}' is not currently running (excluding self). Unable to check memory.\n")
             return
 
+        # Grab the first valid PID
         pid = valid_pids[0]
 
-    except subprocess.CalledProcessError:
-        print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory.")
-        return
+except subprocess.CalledProcessError
 
-    pid_output = subprocess.run(["pidof", target], capture_output=True, text=True).stdout
+    # pgrep returns exit code 1 if no processes are found on system
+    print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory.\n")
+    return
+except Exception as e:
+    print(f"[-] Error searching for PID: {e}\n")
+    return
 
-    if not pid_output:
-        print(f"[-] Process '{binary_name}' is not currently running, unable to check memory.")
-        return
+print(f"[*] Found active PID: {pid}")
 
-    # Grab the first PID in the list and strip any of the trailing whitespace
-    pid = pid_output.split('\n')[0].strip()
+# 3. Get the memory hash
+memory_hash = get_memory_hash(pid)
+if not memory_hash
+    return
 
-    # SAFETY CHECK: This ensures pid actually has a value
-    if not pid:
-        print(f"[-] Could not parse a valid PID for '{binary_name}'. Skipping.")
-        return
+# 4. Compare the two hashes
+print(f"    Disk Hash: {disk_hash[:16]}...")
+print(f"    Memory Hash: {memory_hash[:16]}...")
 
-    print(f"[*] Found active PID: {pid}")
-    
-    # 3. Get the memory hash
-    memory_hash = get_memory_hash(pid)
-    if not memory_hash:
-        return
-
-    # 4. Compare the two hashes
-    print(f"    Disk Hash: {disk_hash[:16]}...")
-    print(f"    Memory Hash: {memory_hash[:16]}...")
-
-    if disk_hash == memory_hash:
-        print(f"[+] SUCCESS: {binary_name} matches the disk. No tampering has been detected.\n")
-    else:
-        print(f"[!] CRITICAL ALERT: COPY FAIL HAS BEEN DETECTED ON {binary_name}!")
-        print(f"[!] The file on disk is clean, but the memory has been tampered with.\n")
-        
+if disk_hash == memory_hash:
+    print(f"[+] SUCCESS: {binary_name} matches the disk. No tampering has been detected.\n")
+else:
+    print(f"[!] CRITICAL ALERT: COPY FAIL HAS BEEN DETECTED ON {binary_name}!")
+    print(f"[!] The file on disk is clean, but the memory has been tampered with.\n")
 
 if __name__ == "__main__":
     if os.geteuid() != 0:
@@ -109,19 +97,26 @@ if __name__ == "__main__":
     print("Dual-Verification File Integrity Monitoring Tool")
     print("==============================================================================\n")
 
-    # If the user passes a specific file, check it instead.
-    # Otherwise, check a default list of critical binaries.
-    if len(sys.argv) > 2 and sys.argv[1] == "--check":
-            targets = [sys.argv[2]]
-    elif len(sys.argv) > 1: 
-            targets = [sys.argv[1]]
-        # If they pass a file path without --check
+    targets = []
+
+    if len(sys.argv) == 1:
+        # No arguments provided check/comment
+        targets = ["/usr/bin/su", "/usr/bin/sudo", "/usr/bin/ssh"]
+        print("[*] No target specified. Scanning the default critical binaries...\n")
+
+    elif len(sys.argv) == 3 and sys.argv[1] == "--check":
+
+        # Specific target provided check/comment
+        targets = [sys.argv[2]]
     else:
-            targets = ["/usr/bin/su", "/usr/bin/sudo", "/usr/bin/ssh"]
-            print("[*] No target specified. Scanning the default critical binaries...\n")
+        print("Usage: sudo ./copyfix.py [--check /path/to/binary]")
+        print("       sudo ./copyfix.py (scans defaults)")
+        sys.exit(1)
 
     for target in targets:
-            if not os.path.exists(target):
-                print(f"[-] Target {target} does not exist. Skipping.\n")
-                continue
-            check_binary(target)
+        if not os.path.exists(target):
+            print(f"[-] Target {target} does not exist. Skipping.\n")
+            continue
+        check_binary(target)
+
+    
