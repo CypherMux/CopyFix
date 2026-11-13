@@ -56,7 +56,7 @@ if not pid:
         pid_output = subprocess.check.output(["pgrep", "-n", binary_name]).decode().strip()
         if not pid_output:
             print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory status.")
-        return
+    return
         pid = pid_output.split('\n')[0]
     except: subprocess.CalledProcessError
     print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory.")
