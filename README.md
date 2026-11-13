@@ -106,6 +106,12 @@ I built `CopyFix` to fix the blind spot in these tools. Instead of just checking
 
 Because `CopyFix` needs to read the memory of root-owned processes *(`/proc/<PID>/exe`)* it **must** run as root *(sudo)*.
 
+## Contributing & Security
+
+Contributions are welcome! Please read the [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to submit pull requests or report bugs.
+
+If you find a security vulnerability within this tool, please refer to the [SECURITY.md](SECURITY.md) policy for responsible disclosure guidelines.
+
 ## Disclaimer
 
 *This tool is intended for educational purposes, CTFs, and authorized defensive monitoring of systems. Always ensure you have explicit permission to monitor systems that you do not own.*
