@@ -92,11 +92,11 @@ if __name__ == "__main__":
             sys.exit(1)
 
     
-    # The Signature
-    print("==============================================================================")
-    print("CopyFix - a tool by Stlwtrs")
-    print("Dual-Verification File Integrity Monitoring Tool")
-    print("==============================================================================\n")
+            # The Signature
+            print("==============================================================================")
+            print("CopyFix - a tool by Stlwtrs")
+            print("Dual-Verification File Integrity Monitoring Tool")
+            print("==============================================================================\n")
 
 
         targets = []
