@@ -35,7 +35,7 @@ def check_binary(binary_path):
     # 1. Get the initial disk hash
     disk_hash = get_disk_hash(binary_path)
     if not disk_hash:
-    return
+        return
 
     # 2. Find the PID
     binary_name = os.path.basename(binary_path)
