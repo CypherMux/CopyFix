@@ -80,6 +80,11 @@ I built `CopyFix` to fix the blind spot in these tools. Instead of just checking
 
 ```sudo ./copyfix.py```
 
+
+
+<img width="957" height="775" alt="Screenshot From 2026-11-13 15-04-44" src="https://github.com/user-attachments/assets/1ea629eb-ae53-490a-9083-6be28f593703" />
+
+
 ## Requirements
 
 Because `CopyFix` needs to read the memory of root-owned processes *(`/proc/<PID>/exe`)* it **must** run as root *(sudo)*.
