@@ -110,7 +110,7 @@ if __name__ == "__main__":
     elif len(sys.argv) > 1: 
             targets = [sys.argv[1]]
         # If they pass a file path without --check
-     else:
+    else:
             targets = ["/usr/bin/su", "/usr/bin/sudo", "/usr/bin/ssh"]
             print("[*] No target specified. Scanning the default critical binaries...\n")
 
