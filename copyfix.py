@@ -65,16 +65,16 @@ def check_binary(binary_path):
     # pgrep returns exit code 1 if no processes are found on system
         print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory.\n")
         return
-    except Exception as e:
-        print(f"[-] Error searching for PID: {e}\n")
-        return
-
-print(f"[*] Found active PID: {pid}")
-
-# 3. Get the memory hash
+        except Exception as e:
+            print(f"[-] Error searching for PID: {e}\n")
+            return
+    
+    print(f"[*] Found active PID: {pid}")
+    
+    # 3. Get the memory hash
         memory_hash = get_memory_hash(pid)
         if not memory_hash:
-        return
+            return
 
 # 4. Compare the two hashes
 print(f"    Disk Hash: {disk_hash[:16]}...")
