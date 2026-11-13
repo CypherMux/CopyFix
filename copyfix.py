@@ -73,7 +73,7 @@ print(f"[*] Found active PID: {pid}")
 
 # 3. Get the memory hash
 memory_hash = get_memory_hash(pid)
-    if not memory_hash:
+if not memory_hash:
         return
 
 # 4. Compare the two hashes
