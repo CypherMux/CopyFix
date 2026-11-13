@@ -77,19 +77,19 @@ def check_binary(binary_path):
         return
 
 # 4. Compare the two hashes
-print(f"    Disk Hash: {disk_hash[:16]}...")
-print(f"    Memory Hash: {memory_hash[:16]}...")
+    print(f"    Disk Hash: {disk_hash[:16]}...")
+    print(f"    Memory Hash: {memory_hash[:16]}...")
 
-if disk_hash == memory_hash:
-    print(f"[+] SUCCESS: {binary_name} matches the disk. No tampering has been detected.\n")
-else:
-    print(f"[!] CRITICAL ALERT: COPY FAIL HAS BEEN DETECTED ON {binary_name}!")
-    print(f"[!] The file on disk is clean, but the memory has been tampered with.\n")
+    if disk_hash == memory_hash:
+        print(f"[+] SUCCESS: {binary_name} matches the disk. No tampering has been detected.\n")
+    else:
+        print(f"[!] CRITICAL ALERT: COPY FAIL HAS BEEN DETECTED ON {binary_name}!")
+        print(f"[!] The file on disk is clean, but the memory has been tampered with.\n")
 
-if __name__ == "__main__":
-    if os.geteuid() != 0:
-        print("[-] Please run as root (sudo python3 copyfix.py)")
-        sys.exit(1)
+    if __name__ == "__main__":
+        if os.geteuid() != 0:
+            print("[-] Please run as root (sudo python3 copyfix.py)")
+            sys.exit(1)
 
     # The Signature
     print("==============================================================================")
