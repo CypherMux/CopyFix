@@ -53,12 +53,19 @@ def check_binary(binary_path):
         return
 
     if not pid_output:
-        print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory.")
+        print(f"[-] Process '{binary_name}' is not currently running, unable to check memory.")
         return
 
-    pid = pid.output.split('\n')[0]
-    print(f"[*] Found active PID: {pid}")
+    # Grab the first PID in the list and strip any of the trailing whitespace
+    pid = pid_output.split('\n')[0].strip()
 
+    # SAFETY CHECK: This ensures pid actually has a value
+    if not pid:
+        print(f"[-] Could not parse a valid PID for '{binary_name}'. Skipping.")
+        return
+
+    print(f"[*] Found active PID: {pid}")
+    
     # 3. Get the memory hash
     memory_hash = get_memory_hash(pid)
     if not memory_hash:
