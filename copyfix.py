@@ -94,8 +94,8 @@ if __name__ == "__main__":
     
             # The Signature
 print("==============================================================================")
-    print("CopyFix - a tool by Stlwtrs")
-    print("Dual-Verification File Integrity Monitoring Tool")
+print("CopyFix - a tool by Stlwtrs")
+print("Dual-Verification File Integrity Monitoring Tool")
 print("==============================================================================\n")
 
 
