@@ -66,6 +66,8 @@ def check_binary(binary_path):
         print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory.")
         return
 
+        pid_output = subprocess.run(["pidof", target], capture_output=True, text=True).stdout
+
     if not pid_output:
         print(f"[-] Process '{binary_name}' is not currently running, unable to check memory.")
         return
