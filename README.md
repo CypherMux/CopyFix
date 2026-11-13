@@ -99,7 +99,7 @@ I built `CopyFix` to fix the blind spot in these tools. Instead of just checking
 
 <img width="957" height="775" alt="Screenshot From 2026-11-13 15-04-44" src="https://github.com/user-attachments/assets/1ea629eb-ae53-490a-9083-6be28f593703" />
 
-***(Note: CopyFix can only check binaries that are actively running in memory. If `su` or `ssh` for example are not running such as in the image above, it will skip such processes.***
+***(Note: CopyFix can only check binaries that are actively running in memory. If `su` or `ssh` for example are not running such as in the image above, it will skip such processes.)***
 
 
 ## Requirements
