@@ -78,7 +78,7 @@ I built `CopyFix` to fix the blind spot in these tools. Instead of just checking
 
 ## Scan all critical binaries at once
 
-```sudo ./copyfix.py```
+```sudo ./copyfix.py --scan-all```
 
 ## Requirements
 
