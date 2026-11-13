@@ -77,8 +77,8 @@ def check_binary(binary_path):
         return
 
 # 4. Compare the two hashes
-print(f"    Disk Hash: {get_disk_hash[:16]}...")
-print(f"    Memory Hash: {get_memory_hash[:16]}...")
+print(f"    Disk Hash: {disk_hash[:16]}...")
+print(f"    Memory Hash: {memory_hash[:16]}...")
 
 if disk_hash == memory_hash:
     print(f"[+] SUCCESS: {binary_name} matches the disk. No tampering has been detected.\n")
