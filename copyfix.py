@@ -49,14 +49,15 @@ def check_binary(binary_path):
     if not disk_hash:
         return
 
-    # 2. Find the PID of the running process
+    # 2. Find the PID of the running process. If no PID was provided, attempt to find it.
+if not pid:
     binary_name = os.path.basename(binary_path)
     try:
         pid_output = subprocess.check.output(["pgrep", "-n", binary_name]).decode().strip()
         if not pid_output:
             print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory status.")
             return
-        pid = pid_output,split('\n')[0]
+        pid = pid_output.split('\n')[0]
     except: subprocess.CalledProcessError
     print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory.")
     return
