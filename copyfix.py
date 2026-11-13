@@ -98,26 +98,26 @@ if __name__ == "__main__":
             print("[-] Please run as root (sudo python3 copyfix.py)")
             sys.exit(1)
 
-    targets = []
+        targets = []
 
-    if len(sys.argv) == 1:
-        # No arguments provided check/comment
-        targets = ["/usr/bin/su", "/usr/bin/sudo", "/usr/bin/ssh"]
-        print("[*] No target specified. Scanning the default critical binaries...\n")
-
-    elif len(sys.argv) == 3 and sys.argv[1] == "--check":
-
-        # Specific target provided check/comment
-        targets = [sys.argv[2]]
-    else:
-        print("Usage: sudo ./copyfix.py [--check /path/to/binary]")
-        print("       sudo ./copyfix.py (scans defaults)")
-        sys.exit(1)
-
-    for target in targets:
-        if not os.path.exists(target):
-            print(f"[-] Target {target} does not exist. Skipping.\n")
-            continue
-        check_binary(target)
+        if len(sys.argv) == 1:
+            # No arguments provided check/comment
+            targets = ["/usr/bin/su", "/usr/bin/sudo", "/usr/bin/ssh"]
+            print("[*] No target specified. Scanning the default critical binaries...\n")
+    
+        elif len(sys.argv) == 3 and sys.argv[1] == "--check":
+    
+            # Specific target provided check/comment
+            targets = [sys.argv[2]]
+        else:
+            print("Usage: sudo ./copyfix.py [--check /path/to/binary]")
+            print("       sudo ./copyfix.py (scans defaults)")
+            sys.exit(1)
+    
+        for target in targets:
+            if not os.path.exists(target):
+                print(f"[-] Target {target} does not exist. Skipping.\n")
+                continue
+            check_binary(target)
 
     
