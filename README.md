@@ -21,7 +21,7 @@ I built `CopyFix` to fix the blind spot in these tools. Instead of just checking
 
 `CopyFix` doesn't just trust the disk, instead it performs a dual verification check on critical system binaries.
 
-*  **1. The Baseline:** The tool calculates the SHA-256 hash of the file **on disk** *(using `O_DIRECT` to bypass the cache)*.
+*  **1. The Baseline:** The tool calculates the SHA-256 hash of the first 100 bytes of the file **on disk**.
 
 *  **2. The Runtime:** It finds the active Process ID (PID) and calculates the SHA-256 hash of the executable **in memory** by reading `/proc/<PID>/exe`.
 
@@ -97,8 +97,9 @@ I built `CopyFix` to fix the blind spot in these tools. Instead of just checking
 ```sudo ./copyfix.py```
 
 
-
 <img width="957" height="775" alt="Screenshot From 2026-11-13 15-04-44" src="https://github.com/user-attachments/assets/1ea629eb-ae53-490a-9083-6be28f593703" />
+
+***(Note: CopyFix can only check binaries that are actively running in memory. If `su` or `ssh` for example are not running such as in the image above, it will skip such processes.***
 
 
 ## Requirements
