@@ -60,7 +60,7 @@ def check_binary(binary_path):
         # Grab the first valid PID
         pid = valid_pids[0]
 
-except subprocess.CalledProcessError:
+    except subprocess.CalledProcessError:
 
     # pgrep returns exit code 1 if no processes are found on system
     print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory.\n")
