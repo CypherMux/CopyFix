@@ -47,7 +47,21 @@ def check_binary(binary_path):
     binary_name = os.path.basename(binary_path)
 
     try:
-        pid_output = subprocess.check_output(["pgrep", "-n", binary_name]).decode().strip()
+        # Get all PIDs for the binary
+        all_pids = subprocess.check_output(["pgrep", binary_name]).decode().strip().split('\n')
+
+        # Get our own parent's PID to avoid scanning ourselves in the process
+        my_ppid = str(os.getppid())
+
+        # Filter out the parent PID we just discovered
+        valid_pids = [p for p in all_pids if p and p != my_ppid]
+
+        if not valid_pids:
+            print(f"[-] Process '{binary_name}' is not currently running (excluding parent). Unable to check memory.")
+            return
+
+        pid = valid_pids[0]
+
     except subprocess.CalledProcessError:
         print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory.")
         return
