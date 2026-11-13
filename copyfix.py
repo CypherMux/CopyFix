@@ -57,8 +57,7 @@ def check_binary(binary_path):
             print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory status.")
             return
         pid = pid_output,split('\n')[0]
-    except
-subprocess.CalledProcessError:
+    except: subprocess.CalledProcessError
         print(f"[-] Process '{binary_name}' is not currently running. Unable to check memory.")
         return
     print(f"[*] Found active PID: {pid}")
