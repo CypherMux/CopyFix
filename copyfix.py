@@ -98,24 +98,24 @@ if __name__ == "__main__":
         sys.exit(1)
 
     # The Signature
-print("==============================================================================")
-print("CopyFix - a tool by Stlwtrs")
-print("Dual-Verification File Integrity Monitoring Tool")
-print("==============================================================================\n")
+    print("==============================================================================")
+    print("CopyFix - a tool by Stlwtrs")
+    print("Dual-Verification File Integrity Monitoring Tool")
+    print("==============================================================================\n")
 
     # If the user passes a specific file, check it instead.
     # Otherwise, check a default list of critical binaries.
-if len(sys.argv) > 2 and sys.argv[1] == "--check":
-        targets = [sys.argv[2]]
-elif len(sys.argv) > 1: 
-        targets = [sys.argv[1]]
+    if len(sys.argv) > 2 and sys.argv[1] == "--check":
+            targets = [sys.argv[2]]
+    elif len(sys.argv) > 1: 
+            targets = [sys.argv[1]]
         # If they pass a file path without --check
-else:
-        targets = ["/usr/bin/su", "/usr/bin/sudo", "/usr/bin/ssh"]
-        print("[*] No target specified. Scanning the default critical binaries...\n")
+     else:
+            targets = ["/usr/bin/su", "/usr/bin/sudo", "/usr/bin/ssh"]
+            print("[*] No target specified. Scanning the default critical binaries...\n")
 
-for target in targets:
-        if not os.path.exists(target):
-            print(f"[-] Target {target} does not exist. Skipping.\n")
-            continue
-        check_binary(target)
+    for target in targets:
+            if not os.path.exists(target):
+                print(f"[-] Target {target} does not exist. Skipping.\n")
+                continue
+            check_binary(target)
