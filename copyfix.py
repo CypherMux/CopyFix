@@ -2,7 +2,7 @@
 import os
 import sys
 import hashlib
-import subprocess
+import subprocess a
 
 def get_disk_hash(filepath):
     """Hashes the first 100 bytes of a file directly from the disk."""
